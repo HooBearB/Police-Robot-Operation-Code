@@ -39,7 +39,6 @@ public class Robot extends IterativeRobot {
 		button2 = new JoystickButton(m_joyStick, 2); //open jaw
 		button3 = new JoystickButton(m_joyStick, 3); //raise arm
 		button4 = new JoystickButton(m_joyStick, 4); //lower arm
-
 	}
 
 	@Override
@@ -48,10 +47,12 @@ public class Robot extends IterativeRobot {
 		if(m_joyStick.getRawButton(button1)) { //close jaw
 			jawClose.set(true);
 			jawOpen.set(false);
-		}else if(m_joyStick.getRawButton(button2)) { //open jaw
+		}
+		else if(m_joyStick.getRawButton(button2)) { //open jaw
 			jawClose.set(false);
 			jawOpen.set(true);
-		}else {
+		}
+		else {
 			jawClose.set(false);
 			jawOpen.set(false);
 		}
@@ -59,10 +60,12 @@ public class Robot extends IterativeRobot {
 		if(m_joyStick.getRawButton(button3)) { //raise arm
 			armUp.set(true);
 			armDown.set(false);
-		}else if(m_joyStick.getRawButton(button4)) { //lower arm
+		}
+		else if(m_joyStick.getRawButton(button4)) { //lower arm
 			armUp.set(false);
 			armDown.set(true);
-		}else {
+		}
+		else {
 			armUp.set(false);
 			armDown.set(false);
 		}
