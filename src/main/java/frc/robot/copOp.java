@@ -25,10 +25,10 @@ public class copOp extends IterativeRobot {
 	//change from solenoid to motor correct ports, find out what elevator is
 	Solenoid jawClose = new Solenoid(3); //port 3
 	Solenoid jawOpen = new Solenoid(2); //port 2
-	Motor armUp = new Motor(0); //port 0
-	Motor armDown = new Motor(1); //port 1
-	Motor ElevatorUp = new Motor(4); //port 4
-	Motor ElevatorDown = new Motor(5); //port 5
+	Spark armUp = new Motor(0); //port 0
+	Spark armDown = new Motor(1); //port 1
+	Spark ElevatorUp = new Motor(4); //port 4
+	Spark ElevatorDown = new Motor(5); //port 5
 	Talon ClawRotation = new Motor(5); //port 5
 	
 	@Override
