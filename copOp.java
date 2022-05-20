@@ -10,9 +10,9 @@ import gradle.InstallAllTools;
 
 
 
-public class Robot extends IterativeRobot {
+public class copOp extends IterativeRobot {
 	Joystick m_joyStick;
-	
+
 	Spark m_frontLeft = new Spark(9);
 	Spark m_rearLeft = new Spark(6);
 	SpeedControllerGroup m_left = new SpeedControllerGroup(m_frontLeft, m_rearLeft);
