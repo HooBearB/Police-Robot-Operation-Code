@@ -7,24 +7,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
  * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
+ * creating this project, you must also update the build.gradle file in the
+ * project.
  */
-public class Robot extends TimedRobot {
-  private final DifferentialDrive m_robotDrive
-      = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
-  private final Joystick m_stick = new Joystick(0);
-  private final Timer m_timer = new Timer();
+public final class Robot extends TimedRobot {
+  RobotBase rb;
+  Joystick joy;																		//joystick for 1 driver arcade drive
+	DriverStation DS;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -32,15 +30,43 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+    //INSTANCE OF THE RB
+		rb = new RobotBase();
+		
+		//INITIALIZING VARS
+		joy = new Joystick(0);
+		DS = DriverStation.getInstance();
+		
+		CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
-   * This function is run once each time the robot enters autonomous mode.
+   * This function is called every robot packet, no matter the mode. Use
+   * this for items like diagnostics that you want ran during disabled,
+   * autonomous, teleoperated and test.
+   *
+   * <p>This runs after the mode specific periodic functions, but before
+   * LiveWindow and SmartDashboard integrated updating.
+   */
+  @Override
+  public void robotPeriodic() {
+  }
+
+  /**
+   * This autonomous (along with the chooser code above) shows how to select
+   * between different autonomous modes using the dashboard. The sendable
+   * chooser code works with the Java SmartDashboard. If you prefer the
+   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+   * getString line to get the auto name from the text box below the Gyro
+   *
+   * <p>You can add additional auto modes by adding additional comparisons to
+   * the switch structure below with additional strings. If using the
+   * SendableChooser make sure to add them to the chooser code above as well.
    */
   @Override
   public void autonomousInit() {
-    m_timer.reset();
-    m_timer.start();
+
   }
 
   /**
@@ -48,27 +74,28 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    // Drive for 2 seconds
-    if (m_timer.get() < 2.0) {
-      m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
-    } else {
-      m_robotDrive.stopMotor(); // stop robot
-    }
+    teleopPeriodic();
   }
 
   /**
-   * This function is called once each time the robot enters teleoperated mode.
+   * This function is called periodically during operator control.
    */
   @Override
-  public void teleopInit() {
-  }
+  public final void teleopPeriodic() {
+    //run tele only while the ds is on
+		if (DS.isEnabled()) {
 
-  /**
-   * This function is called periodically during teleoperated mode.
-   */
-  @Override
-  public void teleopPeriodic() {
-    m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
+			rb.drive(joy.getRawAxis(1)*1, joy.getRawAxis(0)*1); // drive the robot
+			// rb.winch(joy.getRawButton(2)); // control the winch
+		//	rb.winch(joy.getRawButton(3));
+
+			// rb.activateHatch(joy.getRawButtonPressed(5));  // calls with true only once when the button is pressed
+      rb.doArm(joy.getRawButton(1), joy.getRawButton(2));
+			rb.setHatch(joy.getRawButton(7), joy.getRawButton(8));
+			rb.setOutrigger(joy.getRawButton(11), joy.getRawButton(12));
+		} else {
+			// rb.off(); // stop all motors
+		}
   }
 
   /**
@@ -76,5 +103,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    if (DS.isEnabled()) {
+			// rb.periodic(joy.getY(), joy.getX(), joy.getRawAxis(3), joy.getRawAxis(2), DS);
+		}
+		else {
+			rb.off();
+		}
   }
 }
