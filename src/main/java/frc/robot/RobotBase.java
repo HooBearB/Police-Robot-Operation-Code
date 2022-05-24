@@ -8,6 +8,7 @@ Someone's life is probably in my hands right now :) Good to know
 
 package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**
  * Hey random tech! If you're servicing this for whatever reason, just know that I'm long gone, and am no longer around to tell
- * you what the hell any of this means! Love you!! Good luck!! :)
+ * you what the hell any of this means! Good luck!! :)
  * -KMS
  * 
  * P.S.
@@ -24,21 +25,24 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  */
 public class RobotBase {
 	// private Solenoid hatchout, hatchin, outriggerout, outriggerin, liftout, liftin;
-    private Spark mMidLeft, mBackLeft, mMidRight, mBackRight, armUp, armDown; //motors
+    private Spark mMidLeft, mBackLeft, mMidRight, mBackRight, clawOpen, clawClose, arm; //motors
     private SpeedControllerGroup leftCims, rightCims, winch;
 	private DifferentialDrive driveTrain; //drive base with all drive motors included for only $4.99
 	private DoubleSolenoid hatch, outrigger;
+	private Talon armRot;
 
     public RobotBase () {
         //creates instances of motors 
-		mMidLeft = new Spark(9);
-		mBackLeft = new Spark(6);
-		mBackRight = new Spark(7);
-		mMidRight = new Spark(8);
+		mMidLeft = new Spark(2);
+		mBackLeft = new Spark(1);
+		mMidRight = new Spark(3);
+		mBackRight = new Spark(4);
+		clawOpen = new Spark(7);
+		clawClose = new Spark(8);
 
 		//defines the arm pneumatic motors
-		armUp = new Spark(2);
-		armDown = new Spark(3);
+		arm = new Spark(6);
+		armRot = new Talon(5);
 		
 		//idk what these do
 		hatch = new DoubleSolenoid(0, 1);
@@ -68,18 +72,30 @@ public class RobotBase {
 
 	public void doArm (boolean up, boolean down) {
 		if(up) {
-			armUp.set(0.5);
-			armDown.set(0);
+			arm.set(1.0);
 			System.out.println("Arm up");
 		} else if(down) {
-			armDown.set(0.5);
-			armUp.set(0);
+			arm.set(-1.0);
 			System.out.println("Arm down");
 		}
 		else {
-			armUp.set(0);
-			armDown.set(0);
-			System.out.println("Arm stationary");
+			arm.set(0);
+		}
+	}
+
+	public void doClaw (boolean up, boolean down) {
+		if(up) {
+			clawOpen.set(0.5);
+			clawClose.set(0);
+			System.out.println("Arm up");
+		} else if(down) {
+			clawOpen.set(0);
+			clawClose.set(0.5);
+			System.out.println("Arm down");
+		}
+		else {
+			clawOpen.set(0);
+			clawClose.set(0);
 		}
 	}
 

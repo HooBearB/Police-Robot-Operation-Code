@@ -85,13 +85,14 @@ public final class Robot extends TimedRobot {
     //run tele only while the ds is on
 		if (DS.isEnabled()) {
 
-			rb.drive(joy.getRawAxis(1)*1, joy.getRawAxis(0)*1); // drive the robot
+			rb.drive(joy.getRawAxis(1)*-1, joy.getRawAxis(0)*1); // drive the robot
 			// rb.winch(joy.getRawButton(2)); // control the winch
 		//	rb.winch(joy.getRawButton(3));
 
 			// rb.activateHatch(joy.getRawButtonPressed(5));  // calls with true only once when the button is pressed
-      rb.doArm(joy.getRawButton(1), joy.getRawButton(2));
-			rb.setHatch(joy.getRawButton(7), joy.getRawButton(8));
+      rb.doArm(joy.getRawButton(5), joy.getRawButton(3));
+      rb.doClaw(joy.getRawButton(1), joy.getRawButton(2));
+			rb.setHatch(joy.getRawButton(6), joy.getRawButton(4));
 			rb.setOutrigger(joy.getRawButton(11), joy.getRawButton(12));
 		} else {
 			// rb.off(); // stop all motors
