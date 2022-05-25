@@ -116,4 +116,18 @@ public class RobotBase {
 			hatch.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
+
+	public void rotClaw (boolean left, boolean right) {
+		if(left) {
+			System.out.println("Goin left rn");
+			armRot.set(-1);
+		}
+		if(right) {
+			System.out.println("Goin RIGHT RN!!!!!!!!!!");
+			armRot.set(1);
+		}
+		if(left == right) {
+			armRot.set(0);
+		}
+	}
 }

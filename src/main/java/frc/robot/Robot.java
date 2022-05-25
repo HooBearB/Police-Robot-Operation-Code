@@ -93,7 +93,8 @@ public final class Robot extends TimedRobot {
       rb.doArm(joy.getRawButton(5), joy.getRawButton(3));
       rb.doClaw(joy.getRawButton(1), joy.getRawButton(2));
 			rb.setHatch(joy.getRawButton(6), joy.getRawButton(4));
-			rb.setOutrigger(joy.getRawButton(11), joy.getRawButton(12));
+      rb.setOutrigger(joy.getRawButton(11), joy.getRawButton(12));
+      rb.rotClaw(joy.getRawButton(9), joy.getRawButton(10));
 		} else {
 			// rb.off(); // stop all motors
 		}
