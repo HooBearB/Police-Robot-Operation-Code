@@ -25,57 +25,55 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  */
 public class RobotBase {
 	// private Solenoid hatchout, hatchin, outriggerout, outriggerin, liftout, liftin;
-    private Spark mMidLeft, mBackLeft, mMidRight, mBackRight, clawOpen, clawClose, arm; //motors
+    private Spark mMidLeft, mBackLeft, mMidRight, mBackRight, arm; //motors
     private SpeedControllerGroup leftCims, rightCims, winch;
 	private DifferentialDrive driveTrain; //drive base with all drive motors included for only $4.99
-	private DoubleSolenoid hatch, outrigger;
+	private DoubleSolenoid hatch, claw;
 	private Talon armRot;
 
     public RobotBase () {
-        //creates instances of motors 
-		mMidLeft = new Spark(2);
-		mBackLeft = new Spark(1);
-		mMidRight = new Spark(3);
-		mBackRight = new Spark(4);
-		clawOpen = new Spark(7);
-		clawClose = new Spark(8);
+      //creates instances of motors 
+      mMidLeft = new Spark(2);
+      mBackLeft = new Spark(1);
+      mMidRight = new Spark(3);
+      mBackRight = new Spark(4);
 
-		//defines the arm pneumatic motors
-		arm = new Spark(6);
-		armRot = new Talon(5);
-		
-		//idk what these do
-		hatch = new DoubleSolenoid(0, 1);
-		outrigger = new DoubleSolenoid(2, 3);
-		
-		//defines drivetrain as an object
-        leftCims = new SpeedControllerGroup(mMidLeft, mBackLeft);
-        rightCims = new SpeedControllerGroup(mMidRight, mBackRight);
-        driveTrain = new DifferentialDrive(leftCims, rightCims);
+      //defines the arm pneumatic motors
+      arm = new Spark(6);
+      arm.enableDeadbandElimination(true);
+      armRot = new Talon(5);
+      
+      hatch = new DoubleSolenoid(0, 1);
+      claw = new DoubleSolenoid(2, 3);
+      
+      //defines drivetrain as an object
+      leftCims = new SpeedControllerGroup(mMidLeft, mBackLeft);
+      rightCims = new SpeedControllerGroup(mMidRight, mBackRight);
+      driveTrain = new DifferentialDrive(leftCims, rightCims);
     }   
 
     public void off () {
-        driveTrain.stopMotor();
+      driveTrain.stopMotor();
     }
 
     public void drive (double joy1, double joy2) {
-        // arcade drive
-         driveTrain.arcadeDrive(joy1, joy2);
+      // arcade drive
+      driveTrain.arcadeDrive(joy1, joy2);
 
-        // tank drive if you want it idk
-        //driveTrain.tankDrive(joy1, joy2);
+      // tank drive if you want it idk
+      //driveTrain.tankDrive(joy1, joy2);
     }
 
     public void winch (double joy) {
-        winch.set(joy);
+      winch.set(joy);
 	}
 
 	public void doArm (boolean up, boolean down) {
 		if(up) {
-			arm.set(1.0);
+			arm.set(2.0);
 			System.out.println("Arm up");
 		} else if(down) {
-			arm.set(-1.0);
+			arm.set(-2.0);
 			System.out.println("Arm down");
 		}
 		else {
@@ -83,27 +81,11 @@ public class RobotBase {
 		}
 	}
 
-	public void doClaw (boolean up, boolean down) {
-		if(up) {
-			clawOpen.set(0.5);
-			clawClose.set(0);
-			System.out.println("Arm up");
-		} else if(down) {
-			clawOpen.set(0);
-			clawClose.set(0.5);
-			System.out.println("Arm down");
-		}
-		else {
-			clawOpen.set(0);
-			clawClose.set(0);
-		}
-	}
-
-	public void setOutrigger (boolean out, boolean in) {
-		if(out) {
-			outrigger.set(DoubleSolenoid.Value.kReverse);
-		} else if(in) {
-			outrigger.set(DoubleSolenoid.Value.kForward);
+	public void doClaw (boolean open, boolean close) {
+		if(open) {
+			claw.set(DoubleSolenoid.Value.kReverse);
+		} else if(close) {
+			claw.set(DoubleSolenoid.Value.kForward);
 		}
 	}
 
@@ -119,12 +101,12 @@ public class RobotBase {
 
 	public void rotClaw (boolean left, boolean right) {
 		if(left) {
-			System.out.println("Goin left rn");
-			armRot.set(-1);
+			System.out.println("Going left right now");
+			armRot.set(1.0);
 		}
 		if(right) {
 			System.out.println("Goin RIGHT RN!!!!!!!!!!");
-			armRot.set(1);
+			armRot.set(-1.0);
 		}
 		if(left == right) {
 			armRot.set(0);
