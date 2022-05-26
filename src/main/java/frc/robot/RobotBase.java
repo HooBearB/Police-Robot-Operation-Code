@@ -2,8 +2,6 @@
 THE COP-OP ROBOTIC TELEOPERATIONS SYSTEM
 Coded in 2015 by someone else, and adapted by a dumb 17 year old in 2022.
 Designed for use in a specialized police robot, documentation for that will come later.
-
-Someone's life is probably in my hands right now :) Good to know
 */
 
 package frc.robot;
@@ -25,47 +23,46 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  */
 public class RobotBase {
 	// private Solenoid hatchout, hatchin, outriggerout, outriggerin, liftout, liftin;
-    private Spark mMidLeft, mBackLeft, mMidRight, mBackRight, arm; //motors
-    private SpeedControllerGroup leftCims, rightCims, winch;
+  private Spark mMidLeft, mBackLeft, mMidRight, mBackRight, arm, clawRot; //motors
+  private SpeedControllerGroup leftCims, rightCims, winch;
 	private DifferentialDrive driveTrain; //drive base with all drive motors included for only $4.99
-	private DoubleSolenoid hatch, claw;
-	private Talon armRot;
+  private DoubleSolenoid hatch, claw;
+  // if the talon module doesn't work properly just gently hit the central controller a couple times. it might work after that
 
-    public RobotBase () {
-      //creates instances of motors 
-      mMidLeft = new Spark(2);
-      mBackLeft = new Spark(1);
-      mMidRight = new Spark(3);
-      mBackRight = new Spark(4);
+  public RobotBase () {
+    //creates instances of motors 
+    mMidLeft = new Spark(2);
+    mBackLeft = new Spark(1);
+    mMidRight = new Spark(3);
+    mBackRight = new Spark(4);
 
-      //defines the arm pneumatic motors
-      arm = new Spark(6);
-      arm.enableDeadbandElimination(true);
-      armRot = new Talon(5);
-      
-      hatch = new DoubleSolenoid(0, 1);
-      claw = new DoubleSolenoid(2, 3);
-      
-      //defines drivetrain as an object
-      leftCims = new SpeedControllerGroup(mMidLeft, mBackLeft);
-      rightCims = new SpeedControllerGroup(mMidRight, mBackRight);
-      driveTrain = new DifferentialDrive(leftCims, rightCims);
-    }   
+    //defines the arm pneumatic motors
+    arm = new Spark(6);
+    clawRot = new Spark(5);
+    
+    hatch = new DoubleSolenoid(0, 1);
+    claw = new DoubleSolenoid(2, 3);
+    
+    //defines drivetrain as an object
+    leftCims = new SpeedControllerGroup(mMidLeft, mBackLeft);
+    rightCims = new SpeedControllerGroup(mMidRight, mBackRight);
+    driveTrain = new DifferentialDrive(leftCims, rightCims);
+  }
 
-    public void off () {
-      driveTrain.stopMotor();
-    }
+  public void off () {
+    driveTrain.stopMotor();
+  }
 
-    public void drive (double joy1, double joy2) {
-      // arcade drive
-      driveTrain.arcadeDrive(joy1, joy2);
+  public void drive (double joy1, double joy2) {
+    // arcade drive
+    driveTrain.arcadeDrive(joy1, joy2);
 
-      // tank drive if you want it idk
-      //driveTrain.tankDrive(joy1, joy2);
-    }
+    // tank drive if you want it idk
+    // driveTrain.tankDrive(joy1, joy2);
+  }
 
-    public void winch (double joy) {
-      winch.set(joy);
+  public void winch (double joy) {
+    winch.set(joy);
 	}
 
 	public void doArm (boolean up, boolean down) {
@@ -102,14 +99,14 @@ public class RobotBase {
 	public void rotClaw (boolean left, boolean right) {
 		if(left) {
 			System.out.println("Going left right now");
-			armRot.set(1.0);
+			clawRot.set(1.0);
 		}
 		if(right) {
 			System.out.println("Goin RIGHT RN!!!!!!!!!!");
-			armRot.set(-1.0);
+			clawRot.set(-1.0);
 		}
 		if(left == right) {
-			armRot.set(0);
+			clawRot.set(0);
 		}
 	}
 }

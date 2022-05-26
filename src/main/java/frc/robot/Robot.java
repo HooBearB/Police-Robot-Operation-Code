@@ -46,7 +46,7 @@ public final class Robot extends TimedRobot {
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
+   * This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
@@ -60,7 +60,7 @@ public final class Robot extends TimedRobot {
    * LabVIEW Dashboard, remove all of the chooser code and uncomment the
    * getString line to get the auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional comparisons to
+   * You can add additional auto modes by adding additional comparisons to
    * the switch structure below with additional strings. If using the
    * SendableChooser make sure to add them to the chooser code above as well.
    */
@@ -85,11 +85,11 @@ public final class Robot extends TimedRobot {
     //run tele only while the ds is on
 		if (DS.isEnabled()) {
 
-			rb.drive(joy.getRawAxis(1) * (-1 * joy.getRawAxis(3)), joy.getRawAxis(0) * (joy.getRawAxis(3) - 1)); // drive the robot
-      rb.doArm(joy.getRawButton(5), joy.getRawButton(3));
+			rb.drive(joy.getRawAxis(1) * -1, joy.getRawAxis(0)); // drive the robot
+      rb.doArm(joy.getRawButton(3), joy.getRawButton(5));
 			rb.setHatch(joy.getRawButton(1), joy.getRawButton(2));
       rb.doClaw(joy.getRawButton(11), joy.getRawButton(12));
-      rb.rotClaw(joy.getRawButton(11), joy.getRawButton(12));
+      rb.rotClaw(joy.getRawButton(6), joy.getRawButton(4));
 		} else {
 			// rb.off(); // stop all motors
 		}
