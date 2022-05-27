@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public final class Robot extends TimedRobot {
   RobotBase rb;
-  Joystick joy;																		//joystick for 1 driver arcade drive
+  Joystick joy; //joystick for 1 driver arcade drive
 	DriverStation DS;
 
   /**
@@ -85,11 +85,11 @@ public final class Robot extends TimedRobot {
     //run tele only while the ds is on
 		if (DS.isEnabled()) {
 
-			rb.drive(joy.getRawAxis(1) * -1, joy.getRawAxis(0)); // drive the robot
-      rb.doArm(joy.getRawButton(3), joy.getRawButton(5));
-			rb.doClaw(joy.getRawButton(1), joy.getRawButton(2));
-      rb.rotClaw(joy.getRawButton(6), joy.getRawButton(4));
-      rb.rotCamera(joy.getRawButton(11), joy.getRawButton(12));
+			rb.drive(joy.getRawAxis(1) * -1, joy.getRawAxis(0)); //allows you to operate tank motors within arcade mode
+      rb.doArm(joy.getRawButton(3), joy.getRawButton(5)); //raise arm with 3, lower with 5
+			rb.doClaw(joy.getRawButton(1), joy.getRawButton(2)); //open with 2, close with 1
+      rb.rotClaw(joy.getRawButton(6), joy.getRawButton(4)); //I forgot
+      rb.rotCamera(joy.getRawButton(11), joy.getRawButton(12)); //also forgot
 		} else {
 			// rb.off(); // stop all motors
 		}
