@@ -6,10 +6,11 @@ Designed for use in a specialized police robot, documentation for that will come
 
 package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Talon;
+
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Servo;
 
 // I built this software on somebody else's base using popsicle sticks and duct tape, damn it.
 
@@ -24,9 +25,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class RobotBase {
 	// private Solenoid hatchout, hatchin, outriggerout, outriggerin, liftout, liftin;
   private Spark mMidLeft, mBackLeft, mMidRight, mBackRight, arm, clawRot; //motors
-  private SpeedControllerGroup leftCims, rightCims, winch;
+  private SpeedControllerGroup leftCims, rightCims;
 	private DifferentialDrive driveTrain; //drive base with all drive motors included for only $4.99
-  private DoubleSolenoid hatch, claw;
+  private DoubleSolenoid claw;
+  private Servo camMotor;
   // if the talon module doesn't work properly just gently hit the central controller a couple times. it might work after that
 
   public RobotBase () {
@@ -35,12 +37,12 @@ public class RobotBase {
     mBackLeft = new Spark(1);
     mMidRight = new Spark(3);
     mBackRight = new Spark(4);
+    camMotor = new Servo(7);
 
     //defines the arm pneumatic motors
     arm = new Spark(6);
     clawRot = new Spark(5);
     
-    hatch = new DoubleSolenoid(0, 1);
     claw = new DoubleSolenoid(2, 3);
     
     //defines drivetrain as an object
@@ -60,10 +62,6 @@ public class RobotBase {
     // tank drive if you want it idk
     // driveTrain.tankDrive(joy1, joy2);
   }
-
-  public void winch (double joy) {
-    winch.set(joy);
-	}
 
 	public void doArm (boolean up, boolean down) {
 		if(up) {
@@ -86,16 +84,6 @@ public class RobotBase {
 		}
 	}
 
-	public void setHatch (boolean out, boolean in) {
-		if(out) {
-			System.out.println("Hatch out");
-			hatch.set(DoubleSolenoid.Value.kForward);
-		} else if(in) {
-			System.out.println("Hatch in");
-			hatch.set(DoubleSolenoid.Value.kReverse);
-		}
-	}
-
 	public void rotClaw (boolean left, boolean right) {
 		if(left) {
 			System.out.println("Going left right now");
@@ -108,5 +96,17 @@ public class RobotBase {
 		if(left == right) {
 			clawRot.set(0);
 		}
-	}
+  }
+  
+  public void rotCamera (boolean up, boolean down) {
+    if (up) {
+      camMotor.set(1);
+    }
+    else if (down) {
+      camMotor.set(-1);
+    }
+    else {
+      camMotor.set(0);
+    }
+  }
 }

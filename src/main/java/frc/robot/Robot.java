@@ -87,9 +87,9 @@ public final class Robot extends TimedRobot {
 
 			rb.drive(joy.getRawAxis(1) * -1, joy.getRawAxis(0)); // drive the robot
       rb.doArm(joy.getRawButton(3), joy.getRawButton(5));
-			rb.setHatch(joy.getRawButton(1), joy.getRawButton(2));
-      rb.doClaw(joy.getRawButton(11), joy.getRawButton(12));
+			rb.doClaw(joy.getRawButton(1), joy.getRawButton(2));
       rb.rotClaw(joy.getRawButton(6), joy.getRawButton(4));
+      rb.rotCamera(joy.getRawButton(11), joy.getRawButton(12));
 		} else {
 			// rb.off(); // stop all motors
 		}
