@@ -86,11 +86,13 @@ public final class Robot extends TimedRobot {
     //run tele only while the ds is on
 		if (DS.isEnabled()) {
 
-			rb.drive(joy.getRawAxis(1) * -1, joy.getRawAxis(0)); //allows you to operate tank motors within arcade mode
+			rb.drive(joy.getRawAxis(1) * -1 * joy.getRawAxis(3), joy.getRawAxis(0)); //allows you to operate tank motors within arcade mode
       rb.doArm(joy.getRawButton(3), joy.getRawButton(5)); //raise arm with 3, lower with 5
 			rb.doClaw(joy.getRawButton(1), joy.getRawButton(2)); //open with 2, close with 1
       rb.rotClaw(joy.getRawButton(6), joy.getRawButton(4)); //I forgot
       rb.rotCamera(joy.getRawButton(11), joy.getRawButton(12)); //also forgot
+      System.out.println(joy.getRawAxis(3));
+      System.out.println(joy.getPOV());
 		} else {
 			// rb.off(); // stop all motors
 		}
